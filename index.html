@@ -1,1 +1,267 @@
-# webb
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hansom - 전통의 아름다움</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#8B4513',secondary:'#D2B48C'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'SUIT', sans-serif;
+}
+.hero-section {
+background-image: url('https://readdy.ai/api/search-image?query=A%20beautiful%20traditional%20Korean%20hanbok%20in%20cream%20white%20color%2C%20elegant%20and%20simple%20design%2C%20soft%20natural%20lighting%2C%20minimalist%20studio%20background%2C%20high-quality%20fabric%20with%20subtle%20texture%2C%20professional%20product%20photography%2C%20clean%20composition%2C%20showing%20the%20upper%20part%20of%20the%20hanbok&width=1200&height=600&seq=1&orientation=landscape');
+background-size: cover;
+background-position: center;
+}
+input:focus {
+outline: none;
+}
+</style>
+</head>
+<body class="bg-white">
+<!-- 헤더 -->
+<header class="w-full bg-white py-4 px-6 flex justify-between items-center border-b border-gray-100">
+<div class="text-2xl font-['Pacifico'] text-primary">Hansaon</div>
+<nav class="hidden md:flex space-x-8">
+<a href="#" class="text-gray-800 hover:text-primary transition-colors">Home</a>
+<a href="2.about.html" class="text-gray-800 hover:text-primary transition-colors">About</a>
+<a href="3. 쇼핑.html" class="text-gray-800 hover:text-primary transition-colors">Shop</a>
+<a href="4. DIY-전통-공예품-페이지.html" class="text-gray-800 hover:text-primary transition-colors">DIY</a>
+</nav>
+<div class="flex items-center space-x-6">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-search-line text-gray-700"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-user-line text-gray-700"></i>
+</div>
+<a href="5. 장바구니-전체-보기.html">
+  <div class="relative w-8 h-8 flex items-center justify-center">
+    <i class="ri-shopping-bag-line text-gray-700"></i>
+    <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+  </div>
+</a>
+</div>
+</header>
+<!-- 히어로 섹션 -->
+<section class="hero-section w-full h-[500px] relative flex items-center">
+<div class="w-full max-w-6xl mx-auto px-6 z-10">
+<div class="max-w-md">
+<h1 class="text-3xl font-medium text-gray-900 mb-2">일상에 녹아든 전통의 아름다움,</h1>
+<h1 class="text-3xl font-medium text-gray-900 mb-4">현대의 감각으로 잇다</h1>
+<p class="text-sm text-gray-700 mb-6">아름다우면서도 실용적인 한복을 현대적 감각으로 재해석하여 일상에서도 편하게 입을 수 있는 한복</p>
+</div>
+</div>
+</section>
+<!-- 인기 상품 섹션 -->
+<section class="py-16 bg-gray-50">
+<div class="max-w-6xl mx-auto px-6">
+<h2 class="text-2xl font-medium text-center mb-10">인기 상품</h2>
+<p class="text-center text-gray-600 mb-12">가장 많이 구매한 인기 상품을 확인해 보세요. 고객님의 마음을 사로잡은 제품을 만나보세요.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- 상품 1 -->
+<div class="bg-white rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%20Korean%20red%20knot%20charm%20with%20tassel%2C%20elegant%20design%2C%20clean%20background%2C%20professional%20product%20photography&width=400&height=400&seq=2&orientation=squarish" alt="금색 노리개" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="font-medium">금색 노리개</h3>
+<div class="flex justify-between items-center mt-2">
+<p class="text-gray-900">₩18,000</p>
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-right-line"></i>
+</div>
+</div>
+</div>
+</div>
+<!-- 상품 2 -->
+<div class="bg-white rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%20Korean%20embroidered%20bookmark%20with%20pink%20floral%20pattern%20and%20tassel%2C%20elegant%20design%2C%20clean%20background%2C%20professional%20product%20photography&width=400&height=400&seq=3&orientation=squarish" alt="자수 책갈피" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="font-medium">자수 책갈피</h3>
+<div class="flex justify-between items-center mt-2">
+<p class="text-gray-900">₩9,000</p>
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-right-line"></i>
+</div>
+</div>
+</div>
+</div>
+<!-- 상품 3 -->
+<div class="bg-white rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%20Korean%20patchwork%20fabric%20with%20pastel%20colors%2C%20elegant%20design%2C%20clean%20background%2C%20professional%20product%20photography&width=400&height=400&seq=4&orientation=squarish" alt="조각보 패브릭" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="font-medium">조각보 패브릭</h3>
+<div class="flex justify-between items-center mt-2">
+<p class="text-gray-900">₩22,000</p>
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-right-line"></i>
+</div>
+</div>
+</div>
+</div>
+<!-- 상품 4 -->
+<div class="bg-white rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%20Korean%20decorative%20hair%20pin%20with%20purple%20flower%2C%20elegant%20design%2C%20clean%20background%2C%20professional%20product%20photography&width=400&height=400&seq=5&orientation=squarish" alt="꽃장식 머리핀" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="font-medium">꽃장식 머리핀</h3>
+<div class="flex justify-between items-center mt-2">
+<p class="text-gray-900">₩17,500</p>
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-right-line"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-10">
+<button class="border border-gray-300 text-gray-700 px-6 py-2 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap">View All Products</button>
+</div>
+</div>
+</section>
+<!-- 한복 소개 섹션 -->
+<section class="py-16">
+<div class="max-w-6xl mx-auto px-6">
+<div class="flex flex-col md:flex-row items-center gap-10">
+<div class="w-full md:w-1/2">
+<img src="https://readdy.ai/api/search-image?query=Close-up%20detailed%20shot%20of%20traditional%20Korean%20embroidery%20with%20vibrant%20floral%20patterns%20on%20dark%20purple%20fabric%2C%20showing%20intricate%20needlework%2C%20professional%20macro%20photography%20with%20soft%20lighting&width=600&height=600&seq=6&orientation=squarish" alt="한복 자수 디테일" class="w-full h-auto rounded-lg">
+</div>
+<div class="w-full md:w-1/2">
+<h2 class="text-2xl font-medium mb-6">What is Hanbok?</h2>
+<p class="text-gray-700 mb-4">한복은 우리 민족의 전통 의상으로, 아름다운 선과 색채의 조화가 특징입니다. 오랜 역사를 통해 발전해 온 한복은 우리의 문화와 정신을 담고 있습니다.</p>
+<p class="text-gray-700 mb-6">한복의 아름다움은 단순한 외형에만 있지 않습니다. 자연과의 조화, 여유로운 품새, 그리고 절제된 아름다움은 현대 패션에도 많은 영감을 주고 있습니다. 우리는 이러한 전통의 가치를 현대적으로 재해석하여 일상에서도 즐길 수 있는 제품을 만들고 있습니다.</p>
+<p class="text-gray-700 mb-8">우리 브랜드는 전통의 아름다움을 현대적 감각으로 재해석하여 일상생활에서도 편리하게 사용할 수 있는 제품을 제공합니다.</p>
+<button class="bg-primary text-white px-6 py-3 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap">더 보기</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 서비스 소개 섹션 -->
+<section class="py-16 bg-gray-50">
+<div class="max-w-6xl mx-auto px-6">
+<h2 class="text-2xl font-medium text-center mb-10">나만의 것을 만들어 보세요</h2>
+<p class="text-center text-gray-600 mb-12">나만의 개성을 담아 특별한 제품을 만들어 보세요. 전통의 아름다움을 현대적으로 재해석한 제품들을 만나보세요.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- 서비스 1 -->
+<div class="bg-white rounded-lg overflow-hidden shadow-sm">
+<img src="https://readdy.ai/api/search-image?query=Traditional%20Korean%20craft%20materials%20neatly%20arranged%20in%20wooden%20box%2C%20including%20colorful%20threads%2C%20fabric%20samples%2C%20and%20small%20tools%2C%20professional%20overhead%20shot%20with%20natural%20lighting&width=400&height=300&seq=7&orientation=landscape" alt="DIY 키트" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-medium mb-3">누비 키트/DIY</h3>
+<p class="text-gray-600 mb-4">전통 누비 기법을 배우고 나만의 작품을 만들어 보세요. 초보자도 쉽게 따라할 수 있는 키트입니다.</p>
+<a href="#" class="text-primary inline-flex items-center">
+<span>Learn More</span>
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+<!-- 서비스 2 -->
+<div class="bg-white rounded-lg overflow-hidden shadow-sm">
+<img src="https://readdy.ai/api/search-image?query=Modern%20Korean%20gift%20wrapping%20with%20traditional%20elements%2C%20featuring%20red%20decorative%20knot%20on%20elegant%20packaging%2C%20professional%20product%20photography%20with%20soft%20lighting&width=400&height=300&seq=8&orientation=landscape" alt="선물 포장" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-medium mb-3">선물 세트/기프트</h3>
+<p class="text-gray-600 mb-4">소중한 분들을 위한 특별한 선물 세트. 전통의 아름다움을 담은 고급스러운 포장으로 준비해 드립니다.</p>
+<a href="#" class="text-primary inline-flex items-center">
+<span>Learn More</span>
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+<!-- 서비스 3 -->
+<div class="bg-white rounded-lg overflow-hidden shadow-sm">
+<img src="https://readdy.ai/api/search-image?query=Traditional%20Korean%20embroidery%20workshop%20with%20people%20learning%20craft%20techniques%2C%20warm%20interior%20lighting%2C%20professional%20photography%20showing%20hands%20working%20on%20detailed%20projects&width=400&height=300&seq=9&orientation=landscape" alt="원데이 클래스" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-medium mb-3">원데이 클래스</h3>
+<p class="text-gray-600 mb-4">전통 공예를 직접 배워보는 원데이 클래스. 전문가의 지도 아래 나만의 작품을 만들어 보세요.</p>
+<a href="#" class="text-primary inline-flex items-center">
+<span>View Schedule</span>
+<i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 푸터 -->
+<footer class="bg-gray-50 pt-16 pb-8">
+<div class="max-w-6xl mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10 pb-10 border-b border-gray-200">
+<div>
+<div class="text-2xl font-['Pacifico'] text-primary mb-4">Hansawo</div>
+<p class="text-gray-600 mb-6">한사우은 전통의 아름다움을 현대적 감각으로 재해석하여, 우리의 일상에 자연스럽게 스며들게 하는 브랜드입니다.</p>
+<div class="flex space-x-4">
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300">
+<i class="ri-instagram-line text-gray-600"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300">
+<i class="ri-facebook-line text-gray-600"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300">
+<i class="ri-youtube-line text-gray-600"></i>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-medium mb-4">Contact</h3>
+<ul class="space-y-3">
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-0.5 mr-2">
+<i class="ri-map-pin-line text-gray-600"></i>
+</div>
+<span class="text-gray-600">서울 어딘가</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-0.5 mr-2">
+<i class="ri-phone-line text-gray-600"></i>
+</div>
+<span class="text-gray-600">+82 10 1234 5678</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-0.5 mr-2">
+<i class="ri-mail-line text-gray-600"></i>
+</div>
+<span class="text-gray-600">susbe02@naver.com</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mt-0.5 mr-2">
+<i class="ri-time-line text-gray-600"></i>
+</div>
+<span class="text-gray-600">Mon-Fri: 10am-6pm, Sat: 11am-4pm</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="pt-8 text-center text-gray-500 text-sm">
+</div>
+</div>
+</footer>
+<!-- 맨 위로 버튼 -->
+<div class="fixed bottom-6 right-6 w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-md cursor-pointer z-50">
+<i class="ri-arrow-up-line text-white"></i>
+</div>
+<script id="scrollToTop">
+document.addEventListener('DOMContentLoaded', function() {
+const scrollToTopButton = document.querySelector('.fixed.bottom-6.right-6');
+scrollToTopButton.addEventListener('click', function() {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+});
+});
+</script>
+</body>
+</html>
