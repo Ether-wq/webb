@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hansaon - 장바구니</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'SUIT', sans-serif;
+}
+.scroll-top-btn {
+position: fixed;
+bottom: 2rem;
+right: 2rem;
+z-index: 50;
+transition: all 0.3s ease;
+}
+.scroll-top-btn:hover {
+transform: translateY(-5px);
+}
+.nav-link {
+position: relative;
+}
+.nav-link::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -4px;
+left: 0;
+background-color: #8B4513;
+transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+width: 100%;
+}
+.custom-checkbox {
+appearance: none;
+-webkit-appearance: none;
+width: 18px;
+height: 18px;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+outline: none;
+cursor: pointer;
+position: relative;
+transition: all 0.2s;
+}
+.custom-checkbox:checked {
+background-color: #8B4513;
+border-color: #8B4513;
+}
+.custom-checkbox:checked::after {
+content: '';
+position: absolute;
+top: 2px;
+left: 5px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.quantity-input {
+-moz-appearance: textfield;
+}
+</style>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#8B4513',secondary:'#F5F5DC'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+</head>
+<body class="bg-gray-50">
+<!-- Header -->
+<header class="w-full bg-white py-4 px-6 flex items-center justify-between border-b border-gray-100 sticky top-0 z-50">
+<div class="flex items-center">
+<a href="index.html" class="font-['Pacifico'] text-primary text-2xl">Hansaon</a>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a href="index.html" class="nav-link text-gray-700 hover:text-primary transition-colors">Home</a>
+<div class="relative group">
+<a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">About</a>
+<div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+<a href="#brand-story" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">브랜드 스토리</a>
+<a href="#hanbok-intro" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">한복과 원단 소개</a>
+</div>
+</div>
+<a href="https://readdy.ai/home/a368b73e-5769-4291-b576-859ef4def119/19649558-367c-4d2f-a8cf-4feb6742fe74" data-readdy="true" class="nav-link text-gray-700 hover:text-primary transition-colors">Shop</a>
+<a href="https://readdy.ai/home/a368b73e-5769-4291-b576-859ef4def119/6e05f900-64cb-49c6-8976-c0d67f452328" data-readdy="true" class="nav-link text-gray-700 hover:text-primary transition-colors">DIY</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors">
+<i class="ri-search-line ri-lg"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors">
+<i class="ri-user-line ri-lg"></i>
+</button>
+<div class="relative">
+<a href="#" class="w-10 h-10 flex items-center justify-center text-primary relative">
+<i class="ri-shopping-bag-fill ri-lg"></i>
+<span class="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Cart Page Content -->
+<div class="max-w-7xl mx-auto px-4 py-8">
+<div class="mb-8">
+<h1 class="text-2xl font-medium text-gray-900">장바구니</h1>
+<p class="text-gray-600 mt-2">총 3개의 상품이 장바구니에 담겨있습니다.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Cart Items -->
+<div class="lg:w-2/3">
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+<!-- Cart Header -->
+<div class="p-4 border-b border-gray-100 flex items-center">
+<div class="flex items-center">
+<input type="checkbox" id="selectAll" class="custom-checkbox mr-3" checked>
+<label for="selectAll" class="text-sm font-medium text-gray-700">전체 선택</label>
+</div>
+<button class="ml-4 text-sm text-gray-500 hover:text-gray-700">선택 삭제</button>
+</div>
+<!-- Cart Items List -->
+<div class="divide-y divide-gray-100">
+<!-- Item 1 -->
+<div class="p-4 flex items-start">
+<input type="checkbox" class="custom-checkbox mt-2 mr-3 cart-item-checkbox" checked>
+<div class="flex-shrink-0 w-20 h-20 bg-gray-100 rounded overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%252520Korean%252520embroidery%252520pouch%252520with%252520peony%252520flower%252520pattern%252520on%252520clean%252520white%252520background%252C%252520professional%252520product%252520photography&width=80&height=80&seq=30&orientation=squarish" alt="전통 자수 파우치" class="w-full h-full object-cover object-top">
+</div>
+<div class="ml-4 flex-grow">
+<div class="flex justify-between">
+<h3 class="text-base font-medium text-gray-900">전통 자수 파우치 DIY 키트</h3>
+<button class="text-gray-400 hover:text-gray-600" data-product-id="1">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<p class="text-sm text-gray-500 mt-1">난이도: 입문</p>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center border border-gray-200 rounded-button">
+<button class="quantity-btn minus px-3 py-1 text-gray-500 hover:text-gray-700">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="quantity-input w-12 text-center border-none text-gray-700 focus:outline-none focus:ring-0">
+<button class="quantity-btn plus px-3 py-1 text-gray-500 hover:text-gray-700">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<div class="text-right">
+<p class="text-base font-medium text-gray-900">₩28,000</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-4 flex items-start">
+<input type="checkbox" class="custom-checkbox mt-2 mr-3 cart-item-checkbox" checked>
+<div class="flex-shrink-0 w-20 h-20 bg-gray-100 rounded overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%252520Korean%252520ceramic%252520tea%252520cup%252520with%252520blue%252520and%252520white%252520pattern%252520on%252520clean%252520white%252520background%252C%252520professional%252520product%252520photography&width=80&height=80&seq=31&orientation=squarish" alt="전통 도자기 찻잔" class="w-full h-full object-cover object-top">
+</div>
+<div class="ml-4 flex-grow">
+<div class="flex justify-between">
+<h3 class="text-base font-medium text-gray-900">전통 도자기 찻잔 DIY 키트</h3>
+<button class="text-gray-400 hover:text-gray-600" data-product-id="2">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<p class="text-sm text-gray-500 mt-1">난이도: 초급</p>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center border border-gray-200 rounded-button">
+<button class="quantity-btn minus px-3 py-1 text-gray-500 hover:text-gray-700">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="quantity-input w-12 text-center border-none text-gray-700 focus:outline-none focus:ring-0">
+<button class="quantity-btn plus px-3 py-1 text-gray-500 hover:text-gray-700">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<div class="text-right">
+<p class="text-base font-medium text-gray-900">₩35,000</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-4 flex items-start">
+<input type="checkbox" class="custom-checkbox mt-2 mr-3 cart-item-checkbox" checked>
+<div class="flex-shrink-0 w-20 h-20 bg-gray-100 rounded overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%252520Korean%252520hanji%252520paper%252520lantern%252520with%252520beautiful%252520floral%252520patterns%252520on%252520clean%252520white%252520background%25252C%252520professional%252520product%252520photography&width=80&height=80&seq=32&orientation=squarish" alt="한지 전등갓" class="w-full h-full object-cover object-top">
+</div>
+<div class="ml-4 flex-grow">
+<div class="flex justify-between">
+<h3 class="text-base font-medium text-gray-900">한지 전등갓 DIY 키트</h3>
+<button class="text-gray-400 hover:text-gray-600" data-product-id="3">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<p class="text-sm text-gray-500 mt-1">난이도: 초급</p>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center border border-gray-200 rounded-button">
+<button class="quantity-btn minus px-3 py-1 text-gray-500 hover:text-gray-700">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="quantity-input w-12 text-center border-none text-gray-700 focus:outline-none focus:ring-0">
+<button class="quantity-btn plus px-3 py-1 text-gray-500 hover:text-gray-700">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<div class="text-right">
+<p class="text-base font-medium text-gray-900">₩32,000</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Continue Shopping Button -->
+<div class="p-4 border-t border-gray-100">
+<a href="https://readdy.ai/home/a368b73e-5769-4291-b576-859ef4def119/6e05f900-64cb-49c6-8976-c0d67f452328" data-readdy="true" class="inline-flex items-center text-primary hover:text-primary-dark">
+<i class="ri-arrow-left-line mr-2"></i>
+<span>계속 쇼핑하기</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Order Summary -->
+<div class="lg:w-1/3">
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden sticky top-24">
+<div class="p-6">
+<h2 class="text-lg font-medium text-gray-900 mb-4">주문 요약</h2>
+<div class="space-y-3 mb-6">
+<div class="flex justify-between">
+<span class="text-gray-600">상품 금액</span>
+<span class="text-gray-900">₩95,000</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-600">배송비</span>
+<span class="text-gray-900">₩3,000</span>
+</div>
+</div>
+<!-- Coupon Section -->
+<div class="border-t border-gray-100 pt-4 mb-6">
+<h3 class="text-base font-medium text-gray-900 mb-3">할인 쿠폰</h3>
+<div class="flex gap-2 mb-4">
+<div class="relative flex-grow">
+<select id="couponSelect" class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-button py-2 px-3 pr-8 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+<option value="">쿠폰을 선택하세요</option>
+<option value="welcome">신규 가입 10% 할인 쿠폰</option>
+<option value="summer">여름 특별 5,000원 할인 쿠폰</option>
+<option value="diy">DIY 키트 15% 할인 쿠폰</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+<button id="applyCoupon" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all whitespace-nowrap">적용</button>
+</div>
+<div id="couponResult" class="text-sm text-primary hidden mb-3">
+<div class="flex items-center">
+<i class="ri-checkbox-circle-line mr-1"></i>
+<span>쿠폰이 적용되었습니다. (-₩9,500)</span>
+</div>
+</div>
+</div>
+<!-- Total -->
+<div class="border-t border-gray-100 pt-4 mb-6">
+<div class="flex justify-between items-center">
+<span class="text-base font-medium text-gray-900">총 결제 금액</span>
+<span class="text-xl font-bold text-primary" id="totalAmount">₩98,000</span>
+</div>
+</div>
+<!-- Checkout Button -->
+<button class="w-full py-3 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all text-base font-medium whitespace-nowrap">
+결제하기
+</button>
+<!-- Payment Methods -->
+<div class="mt-4 flex justify-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-visa-fill ri-lg"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-mastercard-fill ri-lg"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-paypal-fill ri-lg"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-alipay-fill ri-lg"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommended Products -->
+<section class="mt-16">
+<h2 class="text-xl font-medium text-gray-900 mb-6">함께 구매하면 좋은 상품</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Product 1 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520wooden%2520hairpin%2520with%2520floral%2520design%2520on%2520clean%2520white%2520background%252C%2520professional%2520product%2520photography&width=300&height=300&seq=33&orientation=squarish" alt="전통 나무 비녀" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+</div>
+<div class="p-4">
+<h3 class="text-base font-medium text-gray-900">전통 나무 비녀 DIY 키트</h3>
+<p class="text-sm text-gray-500 mt-1">난이도: 중급</p>
+<div class="flex items-center justify-between mt-3">
+<span class="text-base font-medium text-gray-900">₩40,000</span>
+<button class="px-3 py-1.5 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all text-sm whitespace-nowrap">
+담기
+</button>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520brass%2520spoon%2520and%2520chopsticks%2520with%2520engraved%2520patterns%2520on%2520clean%2520white%2520background%252C%2520professional%2520product%2520photography&width=300&height=300&seq=34&orientation=squarish" alt="황동 수저" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+</div>
+<div class="p-4">
+<h3 class="text-base font-medium text-gray-900">황동 수저 DIY 키트</h3>
+<p class="text-sm text-gray-500 mt-1">난이도: 중급</p>
+<div class="flex items-center justify-between mt-3">
+<span class="text-base font-medium text-gray-900">₩45,000</span>
+<button class="px-3 py-1.5 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all text-sm whitespace-nowrap">
+담기
+</button>
+</div>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520silk%2520bojagi%2520wrapping%2520cloth%2520with%2520colorful%2520patchwork%2520on%2520clean%2520white%2520background%252C%2520professional%2520product%2520photography&width=300&height=300&seq=35&orientation=squarish" alt="명주 조각보" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+</div>
+<div class="p-4">
+<h3 class="text-base font-medium text-gray-900">명주 조각보 DIY 키트</h3>
+<p class="text-sm text-gray-500 mt-1">난이도: 입문</p>
+<div class="flex items-center justify-between mt-3">
+<span class="text-base font-medium text-gray-900">₩30,000</span>
+<button class="px-3 py-1.5 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all text-sm whitespace-nowrap">
+담기
+</button>
+</div>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-48 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520hand%2520mirror%2520with%2520mother%2520of%2520pearl%2520inlay%2520on%2520clean%2520white%2520background%252C%2520professional%2520product%2520photography&width=300&height=300&seq=36&orientation=squarish" alt="자개 손거울" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+</div>
+<div class="p-4">
+<h3 class="text-base font-medium text-gray-900">자개 손거울 DIY 키트</h3>
+<p class="text-sm text-gray-500 mt-1">난이도: 중급</p>
+<div class="flex items-center justify-between mt-3">
+<span class="text-base font-medium text-gray-900">₩38,000</span>
+<button class="px-3 py-1.5 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all text-sm whitespace-nowrap">
+담기
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="bg-gray-50 py-16 px-6 md:px-12 lg:px-24 border-t border-gray-100 mt-16">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start">
+<div class="mb-8 md:mb-0">
+<a href="index.html" class="font-['Pacifico'] text-primary text-2xl">Hansawo</a>
+<p class="text-gray-600 mt-4 max-w-md leading-relaxed">
+한사우오 전통의 아름다움을 현대적 감각으로<br>
+재해석하여, 우리의 일상에 자연스럽게 스며<br>
+들게 하는 브랜드입니다.
+</p>
+<div class="flex space-x-6 mt-8">
+<a href="#" class="text-gray-400 hover:text-primary transition-colors">
+<i class="ri-instagram-line ri-lg"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-primary transition-colors">
+<i class="ri-facebook-line ri-lg"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-primary transition-colors">
+<i class="ri-pinterest-line ri-lg"></i>
+</a>
+</div>
+</div>
+<div class="md:ml-auto">
+<h3 class="text-gray-900 font-medium mb-4">Contact</h3>
+<ul class="space-y-3">
+<li class="flex items-center text-gray-600">
+<i class="ri-map-pin-line w-5 h-5 mr-2"></i>
+서울 어딘가
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-phone-line w-5 h-5 mr-2"></i>
++82 10 1234 5678
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-mail-line w-5 h-5 mr-2"></i>
+susbe02@naver.com
+</li>
+<li class="flex items-center text-gray-600">
+<i class="ri-time-line w-5 h-5 mr-2"></i>
+Mon-Fri: 10am-6pm, Sat: 11am-4pm
+</li>
+</ul>
+</div>
+</div>
+</footer>
+<!-- Scroll to Top Button -->
+<button id="scrollTopBtn" class="scroll-top-btn bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible">
+<i class="ri-arrow-up-line ri-lg"></i>
+</button>
+<script id="scrollTopScript">
+document.addEventListener('DOMContentLoaded', function() {
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', function() {
+if (window.pageYOffset > 300) {
+scrollTopBtn.classList.remove('opacity-0', 'invisible');
+scrollTopBtn.classList.add('opacity-100', 'visible');
+} else {
+scrollTopBtn.classList.remove('opacity-100', 'visible');
+scrollTopBtn.classList.add('opacity-0', 'invisible');
+}
+});
+scrollTopBtn.addEventListener('click', function() {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+});
+});
+</script>
+<script id="cartScript">
+document.addEventListener('DOMContentLoaded', function() {
+// Quantity buttons functionality
+const minusButtons = document.querySelectorAll('.quantity-btn.minus');
+const plusButtons = document.querySelectorAll('.quantity-btn.plus');
+const quantityInputs = document.querySelectorAll('.quantity-input');
+minusButtons.forEach((button, index) => {
+button.addEventListener('click', function() {
+const input = quantityInputs[index];
+const currentValue = parseInt(input.value);
+if (currentValue > 1) {
+input.value = currentValue - 1;
+updateItemPrice(input);
+}
+});
+});
+plusButtons.forEach((button, index) => {
+button.addEventListener('click', function() {
+const input = quantityInputs[index];
+const currentValue = parseInt(input.value);
+input.value = currentValue + 1;
+updateItemPrice(input);
+});
+});
+quantityInputs.forEach(input => {
+input.addEventListener('change', function() {
+if (parseInt(this.value) < 1 || isNaN(parseInt(this.value))) {
+this.value = 1;
+}
+updateItemPrice(this);
+});
+});
+function updateItemPrice(input) {
+// This would update the price based on quantity in a real implementation
+// For this demo, we'll just show a simple implementation
+console.log('Quantity updated to: ' + input.value);
+}
+// Select all checkbox functionality
+const selectAllCheckbox = document.getElementById('selectAll');
+const itemCheckboxes = document.querySelectorAll('.cart-item-checkbox');
+selectAllCheckbox.addEventListener('change', function() {
+const isChecked = this.checked;
+itemCheckboxes.forEach(checkbox => {
+checkbox.checked = isChecked;
+});
+});
+itemCheckboxes.forEach(checkbox => {
+checkbox.addEventListener('change', function() {
+const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
+selectAllCheckbox.checked = allChecked;
+});
+});
+// Remove item functionality
+const removeButtons = document.querySelectorAll('[data-product-id]');
+removeButtons.forEach(button => {
+button.addEventListener('click', function() {
+const productId = this.getAttribute('data-product-id');
+const productElement = this.closest('.p-4.flex.items-start');
+if (confirm('이 상품을 장바구니에서 삭제하시겠습니까?')) {
+productElement.remove();
+// Update cart count in header
+const cartCount = document.querySelector('header .rounded-full');
+const currentCount = parseInt(cartCount.textContent);
+cartCount.textContent = currentCount - 1;
+// Update item count in page title
+const itemCountText = document.querySelector('.text-gray-600.mt-2');
+const remainingItems = document.querySelectorAll('.cart-item-checkbox').length;
+itemCountText.textContent = `총 ${remainingItems}개의 상품이 장바구니에 담겨있습니다.`;
+// If no items left, could redirect or show empty cart message
+if (remainingItems === 0) {
+const cartContainer = document.querySelector('.lg\\:w-2\\/3 .bg-white');
+cartContainer.innerHTML = `
+<div class="p-8 text-center">
+<div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
+<i class="ri-shopping-bag-line ri-2x"></i>
+</div>
+<h3 class="text-lg font-medium text-gray-900 mb-2">장바구니가 비어있습니다</h3>
+<p class="text-gray-600 mb-6">장바구니에 상품을 담아보세요.</p>
+<a href="https://readdy.ai/home/a368b73e-5769-4291-b576-859ef4def119/6e05f900-64cb-49c6-8976-c0d67f452328" data-readdy="true" class="px-6 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all">
+쇼핑하러 가기
+</a>
+</div>
+`;
+}
+}
+});
+});
+// Coupon application
+const applyCouponBtn = document.getElementById('applyCoupon');
+const couponSelect = document.getElementById('couponSelect');
+const couponResult = document.getElementById('couponResult');
+const totalAmount = document.getElementById('totalAmount');
+applyCouponBtn.addEventListener('click', function() {
+const selectedCoupon = couponSelect.value;
+if (selectedCoupon) {
+couponResult.classList.remove('hidden');
+// In a real implementation, this would calculate the actual discount
+// For this demo, we'll just show a fixed discount
+totalAmount.textContent = '₩88,500';
+// Disable further coupon selection
+couponSelect.disabled = true;
+applyCouponBtn.disabled = true;
+applyCouponBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+applyCouponBtn.classList.remove('hover:bg-gray-200');
+}
+});
+});
+</script>
+</body>
+</html>

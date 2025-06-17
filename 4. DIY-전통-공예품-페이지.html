@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hansaon - DIY</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'SUIT', sans-serif;
+}
+.scroll-top-btn {
+position: fixed;
+bottom: 2rem;
+right: 2rem;
+z-index: 50;
+transition: all 0.3s ease;
+}
+.scroll-top-btn:hover {
+transform: translateY(-5px);
+}
+.nav-link {
+position: relative;
+}
+.nav-link::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -4px;
+left: 0;
+background-color: #8B4513;
+transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+width: 100%;
+}
+.difficulty-badge {
+position: absolute;
+top: 10px;
+right: 10px;
+padding: 4px 8px;
+border-radius: 9999px;
+font-size: 12px;
+font-weight: 500;
+}
+.difficulty-beginner {
+background-color: #4CAF50;
+color: white;
+}
+.difficulty-intermediate {
+background-color: #FFC107;
+color: #333;
+}
+.difficulty-advanced {
+background-color: #F44336;
+color: white;
+}
+.custom-checkbox {
+appearance: none;
+-webkit-appearance: none;
+width: 18px;
+height: 18px;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+outline: none;
+cursor: pointer;
+position: relative;
+transition: all 0.2s;
+}
+.custom-checkbox:checked {
+background-color: #8B4513;
+border-color: #8B4513;
+}
+.custom-checkbox:checked::after {
+content: '';
+position: absolute;
+top: 2px;
+left: 5px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-radio {
+appearance: none;
+-webkit-appearance: none;
+width: 18px;
+height: 18px;
+border: 2px solid #d1d5db;
+border-radius: 50%;
+outline: none;
+cursor: pointer;
+position: relative;
+transition: all 0.2s;
+}
+.custom-radio:checked {
+border-color: #8B4513;
+}
+.custom-radio:checked::after {
+content: '';
+position: absolute;
+top: 3px;
+left: 3px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background-color: #8B4513;
+}
+.calendar-day {
+width: 40px;
+height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+cursor: pointer;
+transition: all 0.2s;
+}
+.calendar-day:hover {
+background-color: #f3f4f6;
+}
+.calendar-day.has-event {
+background-color: #8B4513;
+color: white;
+}
+.calendar-day.has-event:hover {
+background-color: #6d370f;
+}
+</style>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#8B4513',secondary:'#F5F5DC'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+</head>
+<body class="bg-white">
+<!-- Header -->
+<header class="w-full bg-white py-4 px-6 flex items-center justify-between border-b border-gray-100 sticky top-0 z-50">
+<div class="flex items-center">
+<a href="index.html" class="font-['Pacifico'] text-primary text-2xl">Hansaon</a>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a href="index.html" class="nav-link text-gray-700 hover:text-primary transition-colors">Home</a>
+<div class="relative group">
+<a href="#" class="nav-link text-gray-700 hover:text-primary transition-colors">About</a>
+<div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+<a href="#brand-story" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">브랜드 스토리</a>
+<a href="#hanbok-intro" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">한복과 원단 소개</a>
+</div>
+</div>
+<a href="https://readdy.ai/home/a368b73e-5769-4291-b576-859ef4def119/19649558-367c-4d2f-a8cf-4feb6742fe74" data-readdy="true" class="nav-link text-gray-700 hover:text-primary transition-colors">Shop</a>
+<a href="#" class="nav-link active text-primary font-medium">DIY</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors">
+<i class="ri-search-line ri-lg"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors">
+<i class="ri-user-line ri-lg"></i>
+</button>
+<div class="relative" id="cartDropdown">
+<button id="cartBtn" class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary transition-colors relative">
+<i class="ri-shopping-bag-line ri-lg"></i>
+<span class="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">2</span>
+</button>
+<div id="cartMenu" class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-100 hidden">
+<div class="p-4">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520embroidery%2520pouch%2520with%2520peony%2520flower%2520pattern%2520on%2520clean%2520white%2520background%2C%2520professional%2520product%2520photography&width=80&height=80&seq=30&orientation=squarish" alt="전통 자수 파우치" class="w-16 h-16 object-cover rounded">
+<div class="flex-1">
+<h4 class="text-sm font-medium text-gray-900">전통 자수 파우치 DIY 키트</h4>
+<p class="text-sm text-gray-500">₩28,000</p>
+</div>
+<button class="text-gray-400 hover:text-gray-600 p-1" data-product-id="1">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520ceramic%2520tea%2520cup%2520with%2520blue%2520and%2520white%2520pattern%2520on%2520clean%2520white%2520background%2C%2520professional%2520product%2520photography&width=80&height=80&seq=31&orientation=squarish" alt="전통 도자기 찻잔" class="w-16 h-16 object-cover rounded">
+<div class="flex-1">
+<h4 class="text-sm font-medium text-gray-900">전통 도자기 찻잔 DIY 키트</h4>
+<p class="text-sm text-gray-500">₩35,000</p>
+</div>
+<button class="text-gray-400 hover:text-gray-600 p-1" data-product-id="2">
+<i class="ri-close-line"></i>
+</button>
+</div>
+</div>
+<div class="border-t border-gray-100 mt-4 pt-4">
+<div class="flex justify-between text-sm font-medium text-gray-900 mb-4">
+<span>총 금액</span>
+<span>₩63,000</span>
+</div>
+<div class="flex gap-2">
+<a href="https://readdy.ai/home/a368b73e-5769-4291-b576-859ef4def119/99910e90-039a-4a52-b040-c4b099ac0bbb" data-readdy="true" class="flex-1">
+<button class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all text-sm whitespace-nowrap">장바구니 보기</button>
+</a>
+<button class="flex-1 px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all text-sm whitespace-nowrap">결제하기</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- DIY Banner -->
+<section class="relative h-64 md:h-80 overflow-hidden">
+<div class="absolute inset-0 bg-gray-900 bg-opacity-40 z-10"></div>
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520crafting%2520workshop%2520with%2520various%2520colorful%2520fabrics%252C%2520threads%252C%2520and%2520traditional%2520tools%2520arranged%2520beautifully%2520on%2520a%2520wooden%2520table.%2520Natural%2520sunlight%2520streaming%2520through%2520windows%252C%2520creating%2520a%2520warm%2520and%2520inviting%2520atmosphere.%2520Hands%2520working%2520on%2520traditional%2520Korean%2520embroidery%2520with%2520intricate%2520patterns%2520and%2520designs.&width=1280&height=500&seq=22&orientation=landscape" alt="한사온 DIY" class="w-full h-full object-cover object-top">
+<div class="absolute inset-0 z-20 flex items-center justify-center">
+<div class="text-center">
+<h1 class="text-white text-4xl md:text-5xl font-medium mb-4">나만의 전통 공예품 만들기</h1>
+<p class="text-white text-lg md:text-xl max-w-2xl mx-auto">전통의 아름다움을 직접 만들어보세요</p>
+</div>
+</div>
+</section>
+<!-- Category Filter -->
+<div class="bg-white sticky top-[73px] z-40 border-b border-gray-100 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 py-4">
+<div class="flex overflow-x-auto pb-2 gap-3 no-scrollbar">
+<button class="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium whitespace-nowrap">전체 보기</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">난이도: 입문</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">난이도: 초급</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">난이도: 중급</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">난이도: 고급</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">소요시간: 1시간 이내</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">소요시간: 2-3시간</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">소요시간: 반나절</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">소요시간: 1일</button>
+</div>
+<div class="flex overflow-x-auto pt-2 gap-3 no-scrollbar">
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">재료: 섬유</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">재료: 도자기</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">재료: 목공</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">재료: 금속공예</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">재료: 한지</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap">재료: 자수</button>
+</div>
+</div>
+</div>
+<!-- Main DIY Content -->
+<div class="max-w-7xl mx-auto px-4 py-12">
+<h2 class="text-2xl font-medium text-gray-900 mb-8">인기 DIY 키트</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- DIY Kit 1 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520embroidery%2520kit%2520with%2520colorful%2520threads%252C%2520needles%252C%2520and%2520fabric%2520with%2520floral%2520pattern%2520outline.%2520The%2520kit%2520includes%2520all%2520materials%2520needed%2520for%2520creating%2520a%2520beautiful%2520traditional%2520Korean%2520embroidered%2520pouch%2520with%2520peony%2520flower%2520design.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520on%2520clean%2520background.&width=600&height=500&seq=23&orientation=landscape" alt="전통 자수 파우치 DIY 키트" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+<span class="difficulty-badge difficulty-beginner">입문</span>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-medium text-gray-900 mb-2">전통 자수 파우치 DIY 키트</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+<span class="flex items-center gap-1">
+<i class="ri-time-line"></i> 2-3시간
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-price-tag-3-line"></i> 섬유/자수
+</span>
+</div>
+<p class="text-gray-700 mb-6">아름다운 모란 문양이 새겨진 전통 자수 파우치를 직접 만들어보세요. 초보자도 쉽게 따라할 수 있는 상세한 설명서가 포함되어 있습니다.</p>
+<div class="flex items-center justify-between">
+<span class="text-lg font-medium text-gray-900">₩28,000</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+키트 구매하기
+</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all whitespace-nowrap">
+튜토리얼 보기
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- DIY Kit 2 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520ceramic%2520tea%2520cup%2520DIY%2520kit%2520with%2520clay%252C%2520tools%252C%2520paints%252C%2520and%2520brushes.%2520The%2520kit%2520includes%2520everything%2520needed%2520to%2520create%2520and%2520decorate%2520a%2520traditional%2520Korean%2520style%2520tea%2520cup%2520with%2520blue%2520and%2520white%2520patterns.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520on%2520clean%2520background.&width=600&height=500&seq=24&orientation=landscape" alt="전통 도자기 찻잔 DIY 키트" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+<span class="difficulty-badge difficulty-intermediate">초급</span>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-medium text-gray-900 mb-2">전통 도자기 찻잔 DIY 키트</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+<span class="flex items-center gap-1">
+<i class="ri-time-line"></i> 반나절
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-price-tag-3-line"></i> 도자기
+</span>
+</div>
+<p class="text-gray-700 mb-6">한국 전통 청화백자 스타일의 찻잔을 직접 만들고 그림을 그려보세요. 점토, 물감, 붓 등 필요한 모든 재료가 포함되어 있습니다.</p>
+<div class="flex items-center justify-between">
+<span class="text-lg font-medium text-gray-900">₩35,000</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+키트 구매하기
+</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all whitespace-nowrap">
+튜토리얼 보기
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- DIY Kit 3 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520hanji%2520paper%2520lantern%2520DIY%2520kit%2520with%2520colored%2520hanji%2520paper%252C%2520wooden%2520frame%252C%2520and%2520tools.%2520The%2520kit%2520includes%2520all%2520materials%2520needed%2520for%2520creating%2520a%2520beautiful%2520traditional%2520Korean%2520paper%2520lantern%2520with%2520floral%2520patterns.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520on%2520clean%2520background.&width=600&height=500&seq=25&orientation=landscape" alt="한지 전등갓 DIY 키트" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+<span class="difficulty-badge difficulty-intermediate">초급</span>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-medium text-gray-900 mb-2">한지 전등갓 DIY 키트</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+<span class="flex items-center gap-1">
+<i class="ri-time-line"></i> 2-3시간
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-price-tag-3-line"></i> 한지
+</span>
+</div>
+<p class="text-gray-700 mb-6">전통 한지를 이용한 아름다운 전등갓을 만들어보세요. 다양한 색상의 한지와 나무 프레임, 상세한 설명서가 포함되어 있습니다.</p>
+<div class="flex items-center justify-between">
+<span class="text-lg font-medium text-gray-900">₩32,000</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+키트 구매하기
+</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all whitespace-nowrap">
+튜토리얼 보기
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- DIY Kit 4 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520wooden%2520hairpin%2520DIY%2520kit%2520with%2520wooden%2520pieces%252C%2520carving%2520tools%252C%2520sandpaper%252C%2520and%2520finishing%2520oil.%2520The%2520kit%2520includes%2520all%2520materials%2520needed%2520for%2520creating%2520a%2520beautiful%2520traditional%2520Korean%2520wooden%2520hairpin%2520with%2520floral%2520design.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520on%2520clean%2520background.&width=600&height=500&seq=26&orientation=landscape" alt="전통 나무 비녀 DIY 키트" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+<span class="difficulty-badge difficulty-advanced">중급</span>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-medium text-gray-900 mb-2">전통 나무 비녀 DIY 키트</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+<span class="flex items-center gap-1">
+<i class="ri-time-line"></i> 반나절
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-price-tag-3-line"></i> 목공
+</span>
+</div>
+<p class="text-gray-700 mb-6">전통 나무 비녀를 직접 조각하고 만들어보세요. 목재, 조각 도구, 사포, 마감유 등 필요한 모든 재료와 도구가 포함되어 있습니다.</p>
+<div class="flex items-center justify-between">
+<span class="text-lg font-medium text-gray-900">₩40,000</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+키트 구매하기
+</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all whitespace-nowrap">
+튜토리얼 보기
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- DIY Kit 5 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520brass%2520spoon%2520and%2520chopsticks%2520DIY%2520kit%2520with%2520metal%2520pieces%252C%2520tools%252C%2520sandpaper%252C%2520and%2520polishing%2520materials.%2520The%2520kit%2520includes%2520all%2520materials%2520needed%2520for%2520creating%2520beautiful%2520traditional%2520Korean%2520brass%2520tableware%2520with%2520engraved%2520patterns.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520on%2520clean%2520background.&width=600&height=500&seq=27&orientation=landscape" alt="황동 수저 DIY 키트" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+<span class="difficulty-badge difficulty-advanced">중급</span>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-medium text-gray-900 mb-2">황동 수저 DIY 키트</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+<span class="flex items-center gap-1">
+<i class="ri-time-line"></i> 반나절
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-price-tag-3-line"></i> 금속공예
+</span>
+</div>
+<p class="text-gray-700 mb-6">전통 황동 수저를 직접 만들고 문양을 새겨보세요. 금속 재료, 조각 도구, 사포, 광택제 등 필요한 모든 재료가 포함되어 있습니다.</p>
+<div class="flex items-center justify-between">
+<span class="text-lg font-medium text-gray-900">₩45,000</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+키트 구매하기
+</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all whitespace-nowrap">
+튜토리얼 보기
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- DIY Kit 6 -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<div class="relative h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520silk%2520bojagi%2520wrapping%2520cloth%2520DIY%2520kit%2520with%2520colorful%2520silk%2520fabric%2520pieces%252C%2520needles%252C%2520thread%252C%2520and%2520pattern%2520guide.%2520The%2520kit%2520includes%2520all%2520materials%2520needed%2520for%2520creating%2520a%2520beautiful%2520traditional%2520Korean%2520patchwork%2520wrapping%2520cloth.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520on%2520clean%2520background.&width=600&height=500&seq=28&orientation=landscape" alt="명주 조각보 DIY 키트" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105">
+<span class="difficulty-badge difficulty-beginner">입문</span>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-medium text-gray-900 mb-2">명주 조각보 DIY 키트</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+<span class="flex items-center gap-1">
+<i class="ri-time-line"></i> 2-3시간
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-price-tag-3-line"></i> 섬유
+</span>
+</div>
+<p class="text-gray-700 mb-6">전통 명주 천을 이용한 아름다운 조각보를 만들어보세요. 다양한 색상의 명주 천, 바늘, 실, 패턴 가이드가 포함되어 있습니다.</p>
+<div class="flex items-center justify-between">
+<span class="text-lg font-medium text-gray-900">₩30,000</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+키트 구매하기
+</button>
+<button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition-all whitespace-nowrap">
+튜토리얼 보기
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured DIY Tutorial -->
+<section class="mt-16">
+<h2 class="text-2xl font-medium text-gray-900 mb-8">추천 DIY 튜토리얼</h2>
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+<div class="grid grid-cols-1 md:grid-cols-2">
+<div class="p-8 md:p-12">
+<span class="inline-block px-3 py-1 bg-primary bg-opacity-10 text-primary text-sm font-medium rounded-full mb-4">이달의 튜토리얼</span>
+<h3 class="text-2xl font-medium text-gray-900 mb-4">전통 매듭 팔찌 만들기</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 mb-6">
+<span class="flex items-center gap-1">
+<i class="ri-time-line"></i> 1시간 이내
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-bar-chart-line"></i> 입문
+</span>
+<span class="flex items-center gap-1">
+<i class="ri-price-tag-3-line"></i> 섬유
+</span>
+</div>
+<p class="text-gray-700 mb-6">한국 전통 매듭 기법을 활용하여 아름다운 팔찌를 만드는 방법을 배워보세요. 기본 매듭부터 시작하여 복잡한 매듭까지 단계별로 자세히 설명해드립니다.</p>
+<h4 class="text-lg font-medium text-gray-900 mb-3">준비물</h4>
+<ul class="list-disc list-inside text-gray-700 mb-6">
+<li>매듭실 (빨강, 파랑, 노랑)</li>
+<li>가위</li>
+<li>자</li>
+<li>클립 또는 집게</li>
+</ul>
+<button class="px-6 py-3 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+튜토리얼 시작하기
+</button>
+</div>
+<div class="relative h-64 md:h-auto">
+<img src="https://readdy.ai/api/search-image?query=Traditional%2520Korean%2520knotting%2520technique%2520demonstration%2520with%2520colorful%2520threads%2520being%2520woven%2520into%2520an%2520intricate%2520bracelet%2520pattern.%2520Hands%2520working%2520on%2520the%2520knot%252C%2520showing%2520the%2520step-by-step%2520process.%2520Beautiful%2520lighting%2520highlighting%2520the%2520vibrant%2520colors%2520and%2520detailed%2520knotwork.%2520Professional%2520instructional%2520photography.&width=600&height=600&seq=29&orientation=squarish" alt="전통 매듭 팔찌 만들기" class="w-full h-full object-cover object-top">
+</div>
+</div>
+<div class="bg-gray-50 p-8">
+<h4 class="text-lg font-medium text-gray-900 mb-4">단계별 가이드</h4>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-white p-4 rounded shadow-sm">
+<div class="w-12 h-12 bg-primary bg-opacity-10 text-primary rounded-full flex items-center justify-center mb-3">
+<span class="font-medium">1</span>
+</div>
+<h5 class="font-medium text-gray-900 mb-2">준비하기</h5>
+<p class="text-sm text-gray-700">매듭실을 준비하고 적당한 길이로 자릅니다.</p>
+</div>
+<div class="bg-white p-4 rounded shadow-sm">
+<div class="w-12 h-12 bg-primary bg-opacity-10 text-primary rounded-full flex items-center justify-center mb-3">
+<span class="font-medium">2</span>
+</div>
+<h5 class="font-medium text-gray-900 mb-2">기본 매듭</h5>
+<p class="text-sm text-gray-700">기본 매듭을 만드는 방법을 배웁니다.</p>
+</div>
+<div class="bg-white p-4 rounded shadow-sm">
+<div class="w-12 h-12 bg-primary bg-opacity-10 text-primary rounded-full flex items-center justify-center mb-3">
+<span class="font-medium">3</span>
+</div>
+<h5 class="font-medium text-gray-900 mb-2">패턴 만들기</h5>
+<p class="text-sm text-gray-700">여러 매듭을 연결하여 패턴을 만듭니다.</p>
+</div>
+<div class="bg-white p-4 rounded shadow-sm">
+<div class="w-12 h-12 bg-primary bg-opacity-10 text-primary rounded-full flex items-center justify-center mb-3">
+<span class="font-medium">4</span>
+</div>
+<h5 class="font-medium text-gray-900 mb-2">마무리하기</h5>
+<p class="text-sm text-gray-700">팔찌의 끝을 마무리하고 잠금장치를 달아줍니다.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- DIY Classes Section -->
+<section class="mt-16">
+<h2 class="text-2xl font-medium text-gray-900 mb-8">오프라인 DIY 클래스</h2>
+<div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden p-8">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-1">
+<h3 class="text-xl font-medium text-gray-900 mb-4">2025년 6월 클래스 일정</h3>
+<p class="text-gray-700 mb-6">한사온 공방에서 진행되는 오프라인 DIY 클래스에 참여해보세요. 전문 강사의 지도 아래 더 깊이 있는 전통 공예를 배울 수 있습니다.</p>
+<div class="bg-gray-50 p-4 rounded-lg mb-6">
+<h4 class="font-medium text-gray-900 mb-2">클래스 장소</h4>
+<p class="text-gray-700 text-sm">서울특별시 종로구 인사동길 12 한사온 공방</p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">소규모 (최대 6명)</span>
+<span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">재료비 포함</span>
+<span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">초보자 환영</span>
+</div>
+<button class="w-full px-6 py-3 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+전체 클래스 일정 보기
+</button>
+</div>
+<div class="lg:col-span-2">
+<div class="mb-6">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-medium text-gray-900">2025년 6월</h4>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-arrow-left-s-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-arrow-right-s-line"></i>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-2 text-center mb-4">
+<span class="text-sm text-gray-500">일</span>
+<span class="text-sm text-gray-500">월</span>
+<span class="text-sm text-gray-500">화</span>
+<span class="text-sm text-gray-500">수</span>
+<span class="text-sm text-gray-500">목</span>
+<span class="text-sm text-gray-500">금</span>
+<span class="text-sm text-gray-500">토</span>
+</div>
+<div class="grid grid-cols-7 gap-2 text-center">
+<div class="calendar-day text-gray-400">26</div>
+<div class="calendar-day text-gray-400">27</div>
+<div class="calendar-day text-gray-400">28</div>
+<div class="calendar-day text-gray-400">29</div>
+<div class="calendar-day text-gray-400">30</div>
+<div class="calendar-day text-gray-400">31</div>
+<div class="calendar-day">1</div>
+<div class="calendar-day">2</div>
+<div class="calendar-day">3</div>
+<div class="calendar-day">4</div>
+<div class="calendar-day">5</div>
+<div class="calendar-day has-event">6</div>
+<div class="calendar-day">7</div>
+<div class="calendar-day has-event">8</div>
+<div class="calendar-day">9</div>
+<div class="calendar-day">10</div>
+<div class="calendar-day">11</div>
+<div class="calendar-day">12</div>
+<div class="calendar-day has-event">13</div>
+<div class="calendar-day">14</div>
+<div class="calendar-day has-event">15</div>
+<div class="calendar-day">16</div>
+<div class="calendar-day">17</div>
+<div class="calendar-day">18</div>
+<div class="calendar-day">19</div>
+<div class="calendar-day has-event">20</div>
+<div class="calendar-day">21</div>
+<div class="calendar-day has-event">22</div>
+<div class="calendar-day">23</div>
+<div class="calendar-day">24</div>
+<div class="calendar-day">25</div>
+<div class="calendar-day">26</div>
+<div class="calendar-day has-event">27</div>
+<div class="calendar-day">28</div>
+<div class="calendar-day has-event">29</div>
+<div class="calendar-day">30</div>
+<div class="calendar-day text-gray-400">1</div>
+<div class="calendar-day text-gray-400">2</div>
+<div class="calendar-day text-gray-400">3</div>
+<div class="calendar-day text-gray-400">4</div>
+<div class="calendar-day text-gray-400">5</div>
+<div class="calendar-day text-gray-400">6</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="border border-gray-200 rounded-lg p-4 hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="font-medium text-gray-900">전통 매듭 공예 클래스</h5>
+<p class="text-sm text-gray-500 mt-1">2025년 6월 6일 (금) 14:00-17:00</p>
+</div>
+<span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">자리 있음</span>
+</div>
+<div class="flex justify-between items-center mt-4">
+<span class="text-primary font-medium">₩45,000</span>
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+신청하기
+</button>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4 hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="font-medium text-gray-900">전통 도자기 클래스</h5>
+<p class="text-sm text-gray-500 mt-1">2025년 6월 13일 (금) 14:00-18:00</p>
+</div>
+<span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded">마감됨</span>
+</div>
+<div class="flex justify-between items-center mt-4">
+<span class="text-primary font-medium">₩60,000</span>
+<button class="px-4 py-2 bg-gray-200 text-gray-500 rounded-button cursor-not-allowed whitespace-nowrap">
+대기 신청
+</button>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4 hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="font-medium text-gray-900">한지 공예 클래스</h5>
+<p class="text-sm text-gray-500 mt-1">2025년 6월 20일 (금) 14:00-17:00</p>
+</div>
+<span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded">마감 임박</span>
+</div>
+<div class="flex justify-between items-center mt-4">
+<span class="text-primary font-medium">₩50,000</span>
+<button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+신청하기
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="mt-16 bg-gray-50 py-16 px-6">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-2xl font-medium text-gray-900 mb-8 text-center">수강생 후기</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-white rounded-lg shadow-sm p-6">
+<div class="flex items-center gap-2 text-yellow-400 mb-4">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+<p class="text-gray-700 mb-6">"처음 도전해보는 전통 자수였는데, 키트에 포함된 설명서가 너무 자세해서 쉽게 따라할 수 있었어요. 완성품도 너무 예뻐서 만족스럽습니다. 다른 DIY 키트도 도전해보고 싶어요!"</p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+<i class="ri-user-line"></i>
+</div>
+<div>
+<p class="font-medium text-gray-900">김지연</p>
+<p class="text-sm text-gray-500">전통 자수 파우치 키트</p>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<div class="flex items-center gap-2 text-yellow-400 mb-4">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+<p class="text-gray-700 mb-6">"오프라인 도자기 클래스에 참여했는데, 강사님의 친절한 지도 덕분에 처음임에도 불구하고 만족스러운 작품을 만들 수 있었습니다. 전통 공예의 매력에 푹 빠져 다른 클래스도 신청할 예정입니다."</p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+<i class="ri-user-line"></i>
+</div>
+<div>
+<p class="font-medium text-gray-900">박성민</p>
+<p class="text-sm text-gray-500">전통 도자기 클래스</p>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<div class="flex items-center gap-2 text-yellow-400 mb-4">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-half-fill"></i>
+</div>
+<p class="text-gray-700 mb-6">"한지 전등갓 DIY 키트를 구매해서 만들었는데, 생각보다 쉽게 완성할 수 있었어요. 집 인테리어에 딱 맞는 아이템이 되었습니다. 재료 품질도 좋고 디자인도 예뻐서 추천합니다!"</p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+<i class="ri-user-line"></i>
+</div>
+<div>
+<p class="font-medium text-gray-900">이민지</p>
+<p class="text-sm text-gray-500">한지 전등갓 키트</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="py-16 px-6">
+<div class="max-w-7xl mx-auto bg-secondary rounded-lg p-8 md:p-12">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="md:w-1/2">
+<h2 class="text-2xl md:text-3xl font-medium text-gray-900 mb-4">DIY 뉴스레터 구독하기</h2>
+<p class="text-gray-700 mb-6">새로운 DIY 키트 출시 소식과 할인 혜택, 무료 튜토리얼을 가장 먼저 받아보세요.</p>
+</div>
+<div class="md:w-1/2">
+<form class="flex flex-col sm:flex-row gap-3">
+<input type="email" placeholder="이메일 주소" class="px-4 py-3 border-none rounded-button focus:outline-none focus:ring-2 focus:ring-primary flex-grow">
+<button type="submit" class="bg-primary text-white px-6 py-3 rounded-button hover:bg-opacity-90 transition-all whitespace-nowrap">
+구독하기
+</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-gray-50 py-12 px-6 border-t border-gray-100">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="flex-1">
+<a href="index.html" class="font-['Pacifico'] text-primary text-2xl">Hansawo</a>
+<p class="text-gray-600 mt-4 text-sm leading-relaxed">
+한사우오 전통의 아름다움을 현대적 감각으로<br>
+재해석하여, 우리의 일상에 자연스럽게<br>
+스며들게 하는 브랜드입니다.
+</p>
+<div class="flex gap-6 mt-6">
+<a href="#" class="text-gray-600 hover:text-primary transition-colors">
+<i class="ri-instagram-line text-xl"></i>
+</a>
+<a href="#" class="text-gray-600 hover:text-primary transition-colors">
+<i class="ri-facebook-line text-xl"></i>
+</a>
+<a href="#" class="text-gray-600 hover:text-primary transition-colors">
+<i class="ri-pinterest-line text-xl"></i>
+</a>
+</div>
+</div>
+<div class="flex-1">
+<h4 class="text-gray-900 font-medium mb-4">Contact</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-2 text-gray-600">
+<i class="ri-map-pin-line"></i>
+<span>서울 어딘가</span>
+</li>
+<li class="flex items-center gap-2 text-gray-600">
+<i class="ri-phone-line"></i>
+<span>+82 10 1234 5678</span>
+</li>
+<li class="flex items-center gap-2 text-gray-600">
+<i class="ri-mail-line"></i>
+<span>susbe02@naver.com</span>
+</li>
+<li class="flex items-center gap-2 text-gray-600">
+<i class="ri-time-line"></i>
+<span>Mon-Fri: 10am-6pm, Sat: 11am-4pm</span>
+</li>
+</ul>
+</div>
+</div>
+</footer>
+<!-- Scroll to Top Button -->
+<button id="scrollTopBtn" class="scroll-top-btn bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible">
+<i class="ri-arrow-up-line ri-lg"></i>
+</button>
+<script id="scrollTopScript">
+document.addEventListener('DOMContentLoaded', function() {
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+// Show/hide scroll to top button based on scroll position
+window.addEventListener('scroll', function() {
+if (window.pageYOffset > 300) {
+scrollTopBtn.classList.remove('opacity-0', 'invisible');
+scrollTopBtn.classList.add('opacity-100', 'visible');
+} else {
+scrollTopBtn.classList.remove('opacity-100', 'visible');
+scrollTopBtn.classList.add('opacity-0', 'invisible');
+}
+});
+// Scroll to top when button is clicked
+scrollTopBtn.addEventListener('click', function() {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+});
+});
+</script>
+<script id="calendarScript">
+document.addEventListener('DOMContentLoaded', function() {
+const calendarDays = document.querySelectorAll('.calendar-day');
+calendarDays.forEach(day => {
+day.addEventListener('click', function() {
+if (this.classList.contains('has-event')) {
+// Here you would typically show event details or open a modal
+alert('이 날짜에 DIY 클래스가 있습니다. 상세 정보를 확인하세요.');
+}
+});
+});
+});
+</script>
+<script id="cartScript">
+document.addEventListener('DOMContentLoaded', function() {
+const cartBtn = document.getElementById('cartBtn');
+const cartMenu = document.getElementById('cartMenu');
+const cartDropdown = document.getElementById('cartDropdown');
+function toggleCart(event) {
+event.stopPropagation();
+cartMenu.classList.toggle('hidden');
+}
+function closeCart() {
+cartMenu.classList.add('hidden');
+}
+cartBtn.addEventListener('click', toggleCart);
+document.addEventListener('click', function(event) {
+if (!cartDropdown.contains(event.target)) {
+closeCart();
+}
+});
+const removeButtons = document.querySelectorAll('[data-product-id]');
+removeButtons.forEach(button => {
+button.addEventListener('click', function(event) {
+event.stopPropagation();
+const productId = this.getAttribute('data-product-id');
+const productElement = this.closest('.flex.items-center');
+productElement.remove();
+const remainingProducts = document.querySelectorAll('[data-product-id]');
+if (remainingProducts.length === 0) {
+cartMenu.classList.add('hidden');
+const cartCount = document.querySelector('#cartBtn span');
+cartCount.textContent = '0';
+}
+});
+});
+});
+</script>
+<script id="filterScript">
+document.addEventListener('DOMContentLoaded', function() {
+const filterButtons = document.querySelectorAll('.max-w-7xl .flex.overflow-x-auto button');
+filterButtons.forEach(button => {
+button.addEventListener('click', function() {
+// Remove active class from all buttons
+const isActive = this.classList.contains('bg-primary');
+filterButtons.forEach(btn => {
+btn.classList.remove('bg-primary', 'text-white');
+btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+});
+// If the clicked button wasn't already active, make it active
+if (!isActive) {
+this.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+this.classList.add('bg-primary', 'text-white');
+}
+// Here you would typically filter the products based on the selected category
+});
+});
+});
+</script>
+</body>
+</html>
